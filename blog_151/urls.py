@@ -8,6 +8,8 @@ from django.contrib.staticfiles.urls import static, staticfiles_urlpatterns
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('account/', include('App_Login.urls')),
+    path('blog/', include('App_Blog.urls')),
+
     path('', views.index, name='index'),
 ]
 

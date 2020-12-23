@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+{% block title %} My Blog  {% endblock %}
+
+{% block body_block %}
+
+{% for blog in user.post_author.all %}
+
+{% endblock %}
