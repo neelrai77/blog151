@@ -1,12 +1,56 @@
 {% extends 'base.html' %}
-{% load crispy_forms_tags %}
+{% load static %}
+
 {% block title %} Create New Account  {% endblock %}
 {% block body_block %}
-<h2 class="asd">Create New Account</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form|crispy }}
-    
-    <button type="submit" class="btn btn-dark btn-sm">Create Account</button>
-</form>
+<div class='bold-line'></div>
+    <div class='container'>
+    <div class='window'>
+        <div class='overlay'></div>
+        <div class='content'>
+            <div class='welcome'>Hello There!</div>
+            <div class='subtitle'>We're almost done. Before using our services you need to create an account.</div>
+            <form method="POST">
+                {% csrf_token %}
+            
+                {% include 'partials/_messages.html' %}
+                <div class="input-fields">
+                    <input
+                        type="text"
+                        name="username"
+                        placeholder="Username"
+                        id="usernameField"
+                        value="{{fieldValues.username}}"
+                        class="input-line full-width"
+                    />
+                    <div class="invalid_feedback invalid-feedback" style="display:none">
+                    </div>
+                    <p class="text-sm text-success usernameSuccessOutput"></p>
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="Email"
+                        class="input-line full-width"
+                        id="emailField"
+
+                        value="{{fieldValues.email}}"
+                    />
+                    <div class="emailFeedBackArea invalid-feedback" style="display:none">
+                    </div>
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                        class="input-line full-width"
+                        id="passwordField"
+                    />
+                    <small class="float-right py-3 showPasswordToggle">SHOW</small>
+                    <div><button class='ghost-round full-width'>Create Account</button></div>
+                </div>
+            </form>       
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/signup.js' %}"></script>
+
 {% endblock %}
