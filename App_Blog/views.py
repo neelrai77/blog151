@@ -1,6 +1,6 @@
 from django.shortcuts import render,HttpResponseRedirect
 from django.views.generic import CreateView, UpdateView, ListView, TemplateView,DeleteView
-from App_blog.models import Blog,Comment,Likes
+from App_Blog.models import Blog,Comment,Likes
 from django.urls import reverse,reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -11,7 +11,7 @@ from App_Blog.forms import CommentForm
 # Create your views here.
 class MyBlogs(LoginRequiredMixin,TemplateView):
     template_name = 'App_Blog/my_blogs.html'
-
+   
 class UpdateBlog(LoginRequiredMixin,UpdateView):
     model=Blog
     fields = ('blog_title','blog_contact','blog_image')
@@ -27,7 +27,7 @@ class CreateBlog(LoginRequiredMixin,CreateView):
     model=Blog
     template_name='App_Blog/create_blog.html'
     fields =['blog_title','blog_content','blog_image']
-    success_url = reverse_lazy('index')
+    # success_url = reverse_lazy('index')
 
     def form_valid(self,form):
         blog_obj=form.save(commit=False)
@@ -35,9 +35,8 @@ class CreateBlog(LoginRequiredMixin,CreateView):
         title=blog_obj.blog_title
         blog_obj.slug=title.replace(" ","-") + "-" +str(uuid.uuid4())
         blog_obj.save()
-        return HttpResponseRedirect(self.get_success_url())
-    def get_context_data(self, **kwargs):
-        pass
+        return HttpResponseRedirect(reverse('index'))
+    
 
 def blog_details(request,slug):
     blog=Blog.objects.get(slug=slug)
