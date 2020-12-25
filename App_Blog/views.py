@@ -20,9 +20,10 @@ class UpdateBlog(LoginRequiredMixin,UpdateView):
         return reverse_lazy('App_Blog:blog_details',kwargs={'slug':self.object.slug})
 
 class BlogList(ListView):
-    context_object_name='blogs'
+    context_object_name='all_blogs'
     model=Blog
     template_name='App_Blog/blog_list.html'
+    paginate_by = 3
 class CreateBlog(LoginRequiredMixin,CreateView):
     model=Blog
     template_name='App_Blog/create_blog.html'

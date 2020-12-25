@@ -2,23 +2,54 @@
 {% load custom_filters %}
 {% block title %} Home  {% endblock %}
 {% block body_block %}
-{% for blog in blogs %}
-<h2> {{ blog.blog_title }}</h2>
-<h6><i>{{ blog.publish_date }}</i></h6>
-<div class="row">
-    <div class="col-sm-4">
-      <img src="/media/{{blog.blog_image}}" alt="{{ blog.blog_title }}" title="{{ blog.blog_title }}" width="100%">
+
+
+<!-- Main Content -->
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-md-10 mx-auto">
+      {% for Single_blog in all_blogs %}
+        <div class="post-preview">
+        
+          <a href="{% url 'App_Blog:blog_details' slug=Single_blog.slug %}">
+            <h2 class="post-title">
+              {{ Single_blog.blog_title }}
+            </h2>
+            <h3 class="post-subtitle">
+              {{ blog.blog_content|range_filter|linebreaks }}
+            </h3>
+            <img src="/media/{{Single_blog.blog_image}}" alt="{{ Single_blog.blog_title }}" title="{{ Single_blog.blog_title }}" width="100%">
+          </a>
+          <p class="post-meta">Posted by
+            <a href="#">{{ blog.author }}</a>
+            {{ Single_blog.publish_date }}</p>
+        </div>
+        <hr>
+      {% endfor %}
+      <!-- Pager -->
+      <div class="pagination d-flex justify-content-end">
+        <div class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1" >&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+    
+            <div class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </div>
+    
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}" class="btn btn-primary float-right">last &raquo;</a>
+            {% endif %}
+        </div>
+      </div>
+    
     </div>
-  
-  
-    <div class="col-sm-8">
-  <p>{{ blog.blog_content|range_filter|linebreaks }}
-     <a href="{% url 'App_Blog:blog_details' slug=blog.slug %}">Read More</a>
-  </p>
-  <h6>Posted By: <a href="#">{{ blog.author }}</a></h6>
-  <h6>{{ blog.liked_blog.count }} Likes | {{ blog.blog_comment.count }} Comments</h6>
-    </div>
-  
   </div>
-{% endfor %}
+</div>
+
+
+
 {% endblock %}
+
