@@ -21,10 +21,13 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,related_name='user_comment')
     comment=models.TextField()
     comment_date = models.DateTimeField(auto_now_add=True)
+
     class Meta:
         ordering=['-comment_date']
+
     def __str__(self):
-        return self.comment
+        return f'Comment by {self.user}'
+
 class Likes(models.Model):
     blog=models.ForeignKey(Blog, on_delete=models.CASCADE,related_name='liked_blog')
     user=models.ForeignKey(User, on_delete=models.CASCADE,related_name='liked_user')

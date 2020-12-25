@@ -56,6 +56,8 @@ def blog_details(request,slug):
             comment.blog=blog
             comment.save()
             return HttpResponseRedirect(reverse('App_Blog:blog_details',kwargs = {'slug':slug}))
+        else:
+            comment_form = CommentForm()
     return render(request,'App_Blog/blog_details.html',context={'blog':blog,'comment_form':comment_form,'liked':liked})
 
 @login_required
