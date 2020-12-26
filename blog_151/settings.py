@@ -30,8 +30,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
-# Application definition
+if DEBUG:
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend" #During Development only
 
 INSTALLED_APPS = [
     'App_Blog',
@@ -135,5 +135,11 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+# Media Files
 MEDIA_URL ='/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+#Login/Logout Redirects
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'

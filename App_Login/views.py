@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm,Passw
 from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import HttpResponseRedirect
 from django.urls import reverse
+from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
 from App_Login.forms import SignUpForm,ProfilePic
 
@@ -14,30 +15,38 @@ def sign_up(request):
     if request.method == 'POST':
         form = SignUpForm(data=request.POST)
         if form.is_valid():
+            user.is_active=False
             form.save()
             registered = True
+            send_mail(
+                'Subject here',
+                'Here is the message.',
+                'from@example.com',
+                ['to@example.com'],
+                fail_silently=False,
+            )
 
     dict = {'form':form, 'registered':registered }
     return render(request, 'App_Login/signup.html',context=dict)
 
-def login_page(request):
-    form = AuthenticationForm()
-    if request.method == 'POST':
-        form = AuthenticationForm(data=request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                login(request,user)
-                return HttpResponseRedirect(reverse('index'))
+# def login_page(request):
+#     form = AuthenticationForm()
+#     if request.method == 'POST':
+#         form = AuthenticationForm(data=request.POST)
+#         if form.is_valid():
+#             username = form.cleaned_data.get('username')
+#             password = form.cleaned_data.get('password')
+#             user = authenticate(username=username, password=password)
+#             if user is not None:
+#                 login(request,user)
+#                 return HttpResponseRedirect(reverse('index'))
 
-    return render(request,'App_Login/login.html', context={'form':form})
+#     return render(request,'App_Login/login.html', context={'form':form})
 
-@login_required
-def logout_user(request):
-    logout(request)
-    return HttpResponseRedirect(reverse('App_Login:signin'))
+# @login_required
+# def logout_user(request):
+#     logout(request)
+#     return HttpResponseRedirect(reverse('login'))
 
 
 @login_required
