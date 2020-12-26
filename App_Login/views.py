@@ -3,7 +3,10 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm,Passw
 from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import HttpResponseRedirect
 from django.urls import reverse
-from django.core.mail import send_mail
+from django.core.mail import EmailMessage
+from django.conf import settings
+from django.template.loader import render_to_string
+
 from django.contrib.auth.decorators import login_required
 from App_Login.forms import SignUpForm,ProfilePic
 
@@ -15,15 +18,16 @@ def sign_up(request):
     if request.method == 'POST':
         form = SignUpForm(data=request.POST)
         if form.is_valid():
-            user.is_active=False
+            # user.is_active=False
             form.save()
             registered = True
-            send_mail(
-                'Subject here',
-                'Here is the message.',
-                'from@example.com',
-                ['to@example.com'],
-                fail_silently=False,
+
+            template=render_to_string('App_Login/email_template.html', {'name': form.cleaned_data.get('username')})
+            email = EmailMessage(
+                template,
+                settings.EMAIL_HOST_USER,
+                [form.cleaned_data.get('email')],
+                
             )
 
     dict = {'form':form, 'registered':registered }
