@@ -14,13 +14,13 @@ from App_Login.forms import SignUpForm,ProfilePic
 
 def sign_up(request):
     form = SignUpForm()
-    registered = False
+    # registered = False
     if request.method == 'POST':
         form = SignUpForm(data=request.POST)
         if form.is_valid():
             # user.is_active=False
             form.save()
-            registered = True
+            # registered = True
 
             template=render_to_string('App_Login/email_template.html', {'name': form.cleaned_data.get('username')})
             email = EmailMessage(
