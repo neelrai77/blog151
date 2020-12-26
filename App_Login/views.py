@@ -20,7 +20,7 @@ def sign_up(request):
         if form.is_valid():
             # user.is_active=False
             form.save()
-            # registered = True
+            # registered = Truex
 
             template=render_to_string('App_Login/email_template.html', {'name': form.cleaned_data.get('username')})
             email = EmailMessage(
