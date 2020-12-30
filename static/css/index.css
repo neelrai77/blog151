@@ -121,3 +121,8 @@ img {
   color: #2a9134;
   background: #191919;
 }
+
+.not-visible{
+  display: none;
+  
+}

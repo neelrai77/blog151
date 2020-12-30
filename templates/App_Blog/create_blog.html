@@ -4,10 +4,21 @@
 
 {% block body_block %}
 <h2>Write Your Blog Here:</h2>
-<form method="post" enctype="multipart/form-data">
+<div class="alert-box">
+
+</div>
+<div class="image-box">
+
+</div>
+<br>
+<form id="upload-form" action="" method="post" enctype="multipart/form-data">
  {{ form|crispy }}
  {% csrf_token %}
  <button type="submit" class="btn btn-success btn-sm" >Publish</button>
 </form>
-<br><br><br>
+<br>
+<div class="not-visible" id="progress-box">progress</div>
+<div id="cancel-box" class="not-visible" >
+    <button id="cancel-btn" class="btn btn-danger" >cancel</button>
+</div>
 {% endblock %}

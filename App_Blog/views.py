@@ -6,7 +6,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 import uuid
 from App_Blog.forms import CommentForm
-
+import json
+from django.core import serializers
 
 # Create your views here.
 class MyBlogs(LoginRequiredMixin,TemplateView):
@@ -24,11 +25,22 @@ class BlogList(ListView):
     model=Blog
     template_name='App_Blog/blog_list.html'
     paginate_by = 3
+
+    blog_objects = Blog.objects.all()
+
+    tmpJson = serializers.serialize("json",blog_objects)
+    tmpObj = json.loads(tmpJson)
+    def get_context_data(self, **kwargs):
+        context=super().get_context_data(**kwargs)
+        # context["qs_json"]=json.dumps(list(tmpObj))
+        return context
+
 class CreateBlog(LoginRequiredMixin,CreateView):
     model=Blog
     template_name='App_Blog/create_blog.html'
     fields =['blog_title','blog_content','blog_image']
     # success_url = reverse_lazy('index')
+    
 
     def form_valid(self,form):
         blog_obj=form.save(commit=False)
