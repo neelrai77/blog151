@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load custom_filters %}
 {% block title %} Home  {% endblock %}
 {% block body_block %}
@@ -19,7 +20,7 @@
             <h3 class="post-subtitle">
               {{ blog.blog_content|range_filter|linebreaks }}
             </h3>
-            <img src="/media/{{Single_blog.blog_image}}" alt="{{ Single_blog.blog_title }}" title="{{ Single_blog.blog_title }}" width="100%">
+            <img src="/media/{{Single_blog.blog_image}}" alt="{{ Single_blog.blog_title }}" title="{{ Single_blog.blog_title }}" width="20%">
           </a>
           <p class="post-meta">Posted by
             <a href="#">{{ blog.author }}</a>
@@ -53,4 +54,9 @@
 
 
 {% endblock %}
-
+{% block scripts %}
+<script>
+  const data = '{{ qs_json }}'
+  console.log(data)
+</script>
+{% endblock scripts %}
